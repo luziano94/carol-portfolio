@@ -4,6 +4,7 @@ import { Link } from "next-view-transitions";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { MessageCircle } from "lucide-react";
+import { SECRETARIA_MESSAGE, secretariaWhatsApp } from "../atendimento/secretaria";
 
 // Custom SVG icons from Simple Icons (replacing deprecated Lucide brand icons)
 const InstagramIcon = ({ size = 20 }: { size?: number }) => (
@@ -28,6 +29,11 @@ export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const pathname = usePathname();
+
+    // Na página de atendimento, o WhatsApp do header leva à secretaria (mesmo canal dos botões da página)
+    const whatsapp = pathname.startsWith("/atendimento")
+        ? { href: secretariaWhatsApp(SECRETARIA_MESSAGE), title: "WhatsApp da Secretaria" }
+        : { href: "https://wa.link/ufs2ot", title: "WhatsApp" };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -127,7 +133,7 @@ export default function Header() {
                         <a href="https://www.linkedin.com/in/carolineassisb/" target="_blank" rel="noopener noreferrer" className="text-text-body/60 hover:text-primary transition-colors hover:scale-110 duration-200" title="LinkedIn">
                             <LinkedInIcon size={20} />
                         </a>
-                        <a href="https://wa.link/ufs2ot" target="_blank" rel="noopener noreferrer" className="text-text-body/60 hover:text-primary transition-colors hover:scale-110 duration-200" title="WhatsApp">
+                        <a href={whatsapp.href} target="_blank" rel="noopener noreferrer" className="text-text-body/60 hover:text-primary transition-colors hover:scale-110 duration-200" title={whatsapp.title}>
                             <MessageCircle size={20} />
                         </a>
                         <a href="http://lattes.cnpq.br/4434362741632614" target="_blank" rel="noopener noreferrer" className="text-text-body/60 hover:text-primary transition-colors hover:scale-110 duration-200" title="Currículo Lattes">
@@ -190,7 +196,7 @@ export default function Header() {
                             <a href="https://www.linkedin.com/in/carolineassisb/" target="_blank" rel="noopener noreferrer" className="text-text-body/60 hover:text-primary transition-colors" title="LinkedIn">
                                 <LinkedInIcon size={24} />
                             </a>
-                            <a href="https://wa.link/ufs2ot" target="_blank" rel="noopener noreferrer" className="text-text-body/60 hover:text-primary transition-colors" title="WhatsApp">
+                            <a href={whatsapp.href} target="_blank" rel="noopener noreferrer" className="text-text-body/60 hover:text-primary transition-colors" title={whatsapp.title}>
                                 <MessageCircle size={24} />
                             </a>
                             <a href="http://lattes.cnpq.br/4434362741632614" target="_blank" rel="noopener noreferrer" className="text-text-body/60 hover:text-primary transition-colors" title="Currículo Lattes">

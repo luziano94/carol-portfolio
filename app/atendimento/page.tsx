@@ -6,6 +6,7 @@ import { Calendar, ChevronDown } from "lucide-react"
 import styles from "./atendimento.module.css"
 import TriageForm from "./TriageForm"
 import { GoogleLogo, WhatsAppIcon } from "./icons"
+import { SECRETARIA_MESSAGE, SECRETARIA_PHONE, secretariaWhatsApp } from "./secretaria"
 
 export const metadata: Metadata = {
     title: "Caroline Assis | Psicoterapia Online para Brasileiros no Exterior",
@@ -15,12 +16,6 @@ export const metadata: Metadata = {
 
 const AGENDA_URL = "https://calendar.app.google/Ur74T3Fvcc3ZoMTaA"
 const GOOGLE_REVIEWS_URL = "https://share.google/xM1OYrgiITmmKEG86"
-
-// Telefone oficial da Secretaria do Instituto Versar
-const SECRETARIA_PHONE = "556798369479"
-
-const secretariaWhatsApp = (text?: string) =>
-    `https://api.whatsapp.com/send?phone=${SECRETARIA_PHONE}${text ? `&text=${encodeURIComponent(text)}` : ""}`
 
 const REVIEWS = [
     {
@@ -532,7 +527,7 @@ export default function AtendimentoPage() {
 
             {/* BOTÃO FLUTUANTE DO WHATSAPP */}
             <a
-                href={secretariaWhatsApp("Olá! Gostaria de falar com a secretaria do Instituto Versar.")}
+                href={secretariaWhatsApp(SECRETARIA_MESSAGE)}
                 {...external}
                 className={styles.floatingWpp}
                 aria-label="Falar com a Secretaria do Instituto Versar"
