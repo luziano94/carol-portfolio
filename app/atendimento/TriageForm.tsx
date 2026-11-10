@@ -3,6 +3,7 @@
 import type { FormEvent } from "react"
 import styles from "./atendimento.module.css"
 import { WhatsAppIcon } from "./icons"
+import { secretariaWhatsApp } from "./secretaria"
 
 const COUNTRIES = [
     { value: "Espanha (CET)", label: "Espanha" },
@@ -35,7 +36,7 @@ const REASONS = [
 ]
 
 // Formulário de triagem: monta a mensagem e abre o WhatsApp da secretaria
-export default function TriageForm({ phone }: { phone: string }) {
+export default function TriageForm() {
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
@@ -46,7 +47,7 @@ export default function TriageForm({ phone }: { phone: string }) {
         const country = field("country")
         const turn = field("turn")
         const notes = field("notes")
-        const reason = field("reason") || "Acolhimento geral"
+        const reason = field("reason")
 
         const text =
             `Olá, equipe da Secretaria do Instituto Versar! Meu nome é *${name}*.\n\n` +
@@ -56,11 +57,8 @@ export default function TriageForm({ phone }: { phone: string }) {
             (notes ? `💬 Meu momento: "${notes}"\n\n` : "\n") +
             `Gostaria de falar com a secretaria para agendar uma consulta com a psicóloga Caroline Assis! 🌿`
 
-        window.open(
-            `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(text)}`,
-            "_blank",
-            "noopener,noreferrer"
-        )
+        // same tab: window.open after preventDefault is often blocked on phones
+        window.location.href = secretariaWhatsApp(text)
     }
 
     return (
@@ -116,9 +114,9 @@ export default function TriageForm({ phone }: { phone: string }) {
             <fieldset className={`${styles.formGroup} ${styles.fieldset}`}>
                 <legend className={styles.formLabel}>Principal motivo da busca neste momento:</legend>
                 <div className={styles.chipsWrap}>
-                    {REASONS.map((reason, index) => (
+                    {REASONS.map((reason) => (
                         <label key={reason.value} className={styles.chipChoice}>
-                            <input type="radio" name="reason" value={reason.value} defaultChecked={index === 0} />
+                            <input type="radio" name="reason" value={reason.value} required />
                             <span>{reason.label}</span>
                         </label>
                     ))}
@@ -127,7 +125,7 @@ export default function TriageForm({ phone }: { phone: string }) {
 
             <div className={styles.formGroup}>
                 <label className={styles.formLabel} htmlFor="triage-notes">
-                    Quer adiantar algo sobre o que tem vivido? (Opcional)
+                    Quer adiantar algo sobre o que tem vivido? (Opcional — vai para a secretaria, não para a Caroline)
                 </label>
                 <textarea
                     id="triage-notes"
@@ -140,7 +138,7 @@ export default function TriageForm({ phone }: { phone: string }) {
 
             <button type="submit" className={styles.btnSubmitWpp}>
                 <WhatsAppIcon size={22} />
-                Quero Conversar com a Caroline no WhatsApp
+                Falar com a Secretaria no WhatsApp
             </button>
         </form>
     )

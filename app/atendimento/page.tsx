@@ -6,7 +6,7 @@ import { Calendar, ChevronDown } from "lucide-react"
 import styles from "./atendimento.module.css"
 import TriageForm from "./TriageForm"
 import { GoogleLogo, WhatsAppIcon } from "./icons"
-import { SECRETARIA_MESSAGE, SECRETARIA_PHONE, secretariaWhatsApp } from "./secretaria"
+import { SECRETARIA_MESSAGE, secretariaWhatsApp } from "./secretaria"
 
 export const metadata: Metadata = {
     title: "Caroline Assis | Psicoterapia Online para Brasileiros no Exterior",
@@ -426,7 +426,7 @@ export default function AtendimentoPage() {
                             <div className={styles.dividerLine} />
                         </div>
 
-                        <TriageForm phone={SECRETARIA_PHONE} />
+                        <TriageForm />
 
                         <div className={styles.privacyNotice}>
                             <span>🔒 Sigilo profissional conforme o Código de Ética</span>
